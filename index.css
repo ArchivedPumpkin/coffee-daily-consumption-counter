@@ -72,3 +72,10 @@ button:hover {
 
     border-radius: 2rem;
 }
+
+p#save-el {
+    overflow: auto;
+    max-height: 200px;
+    max-width: 300px;
+    padding: 0 20px;
+}
