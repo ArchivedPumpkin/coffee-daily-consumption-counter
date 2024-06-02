@@ -1,11 +1,17 @@
 let saveEl = document.getElementById("save-el")
 let countEl = document.getElementById("count-el")
-let coffee = " coffee"
+let coffee = " coffee cup"
 let count = 0
 
 function increment() {
     count += 1
-    countEl.textContent = count + coffee
+
+    if (count === 1) {
+        countEl.textContent = count + coffee
+    } else if (count > 1) {
+        countEl.textContent = count + coffee + "s"
+    }
+
 }
 
 function save() {
@@ -14,11 +20,11 @@ function save() {
     let formatttedDate = currentTime.toLocaleDateString()
     let formattedTime = currentTime.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
 
-    if (count === 0) {
-        countStr = count + " coffee cup - " + formatttedDate + ": " + formattedTime
-    } else if (count > 0) {
+    if (count === 0 || count > 1) {
         countStr = count + " coffee cups - " + formatttedDate + ": " + formattedTime
-    }
+    } else if (count === 1) {
+        countStr = count + " coffee cup - " + formatttedDate + ": " + formattedTime
+    } 
     
     let span = document.createElement("span")
     span.textContent = countStr
@@ -26,10 +32,14 @@ function save() {
     
     saveEl.appendChild(document.createElement("br"))
 
-    countEl.textContent = count + coffee
+    if (count === 0 || count > 1) {
+        countEl.textContent = count + coffee + "s"
+    } else if (count === 1) {
+        countEl.textContent = count + coffee
+    }
 }
 
 function reset() {
     count = 0
-    countEl.textContent = count + coffee
+    countEl.textContent = count + coffee + "s"
 }
