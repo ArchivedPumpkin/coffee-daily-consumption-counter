@@ -6,14 +6,24 @@
 
 <body>
     <div class="container">
-        <h1>Daily coffee consumption</h1>
-        <h2 id="count-el">0 coffee cups</h2>
-        <button id="increment-btn" onclick="increment()">INCREMENT</button>
+        <h1>Coffee had:</h1>
+        <div class="consumption-container">
+            <button id="increment-btn" onclick="increment()">+</button>
+            <div class="countContainer">
+                <h2 id="count-el">0</h2>
+                <p id="noun">coffee</p>
+            </div>
+            <button id="decrease-btn" onclick="decrease()">-</button>
+        </div>
+
         <button id="save-btn" onclick="save()">SAVE</button>
         <button id="reset-btn" onclick="reset()">RESET</button>
-        <p>Today I had:</p>
+
+        <p class="title-consumption">Coffee consumption:</p>
         <p id="save-el"> </p>
+        
         <div class="container-img"></div>
+        <p id="total">Total consumption: <span id="total-count">0</span></p>
     </div>
     <script src="index.js">
         nnerText

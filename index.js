@@ -1,70 +1,55 @@
-let saveEl = document.getElementById("save-el");
-let countEl = document.getElementById("count-el");
-let coffee = " coffee cup";
-let count = 0;
+let saveEl = document.getElementById("save-el")
+let countEl = document.getElementById("count-el")
+let nounEl = document.getElementById("noun")
+let saveBtn = document.getElementById("save-btn")
+let totalEl = document.getElementById("total-count")
+let count = 0
+let totalCount = 0
 
-// Load saved entries from local storage on page load
-window.onload = function() {
-    loadEntries();
+function updateDisplay() {
+    let noun = (count === 0 || count === 1) ? "coffee" : "coffees"
+    countEl.textContent = count
+    nounEl.textContent = noun
+    saveBtn.disabled = (count < 1)
 }
 
-function increment() {
-    count += 1;
+updateDisplay()
 
-    if (count === 1) {
-        countEl.textContent = count + coffee;
-    } else if (count > 1) {
-        countEl.textContent = count + coffee + "s";
+function increment() {
+    count += 1
+    updateDisplay()
+}
+
+function decrease() {
+    if (count > 0) {
+        count -= 1
     }
+    updateDisplay()
 }
 
 function save() {
-    let countStr;
-    let currentTime = new Date();
-    let formatttedDate = currentTime.toLocaleDateString();
-    let formattedTime = currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    let time = new Date().toLocaleString(undefined, { hour12: false }).slice(0, 16)
+    let unit = (count === 1) ? " cup": " cups"
+    let countStr = time + " - " + count + unit
 
-    if (count === 0 || count > 1) {
-        countStr = count + " coffee cups - " + formatttedDate + ": " + formattedTime;
-    } else if (count === 1) {
-        countStr = count + " coffee cup - " + formatttedDate + ": " + formattedTime;
+    if (count > 0) {
+        let entry = document.createElement("div")
+        entry.textContent = countStr
+        entry.classList.add("entry")
+        saveEl.appendChild(entry)
+        totalCount += count
+        totalEl.textContent = totalCount
     }
-
-    let span = document.createElement("span");
-    span.textContent = countStr;
-    saveEl.appendChild(span);
-    saveEl.appendChild(document.createElement("br"));
-
-    // Save the entry to local storage
-    saveToLocalStorage(countStr);
-
-    if (count === 0 || count > 1) {
-        countEl.textContent = count + coffee + "s";
-    } else if (count === 1) {
-        countEl.textContent = count + coffee;
-    }
+    countEl.textContent = 0
+    count = 0
+    updateDisplay()
 }
+
+
+save()
 
 function reset() {
-    count = 0;
-    countEl.textContent = count + coffee + "s";
+    count = 0
+    updateDisplay()
 }
 
-// Function to save entries to local storage
-function saveToLocalStorage(entry) {
-    let entries = JSON.parse(localStorage.getItem("coffeeEntries")) || [];
-    entries.push(entry);
-    localStorage.setItem("coffeeEntries", JSON.stringify(entries));
-}
-
-// Function to load entries from local storage and display them
-function loadEntries() {
-    let entries = JSON.parse(localStorage.getItem("coffeeEntries")) || [];
-    saveEl.innerHTML = ""; // Clear existing entries
-    entries.forEach(entry => {
-        let span = document.createElement("span");
-        span.textContent = entry;
-        saveEl.appendChild(span);
-        saveEl.appendChild(document.createElement("br"));
-    });
-}
